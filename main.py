@@ -28,6 +28,15 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
+    def __lt__(self, other):
+        self.average_grade = sum([sum(grade) for grade in self.grades.values()]) / sum([len(grade) for grade in self.grades.values()])
+        other.average_grade = sum([sum(grade) for grade in other.grades.values()]) / sum([len(grade) for grade in other.grades.values()])
+
+        if not isinstance(other, Student):
+            print('Это не лектор')
+        else:
+            return self.average_grade < other.average_grade
+
 class Reviewer(Mentor):
     def rate_student(self, student, course, grade):
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
